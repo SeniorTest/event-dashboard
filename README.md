@@ -62,17 +62,17 @@ which will add a new event to elasticsearch.
 Afterwards you should see the event in the dashboard.
 
 You can see all events which are available at elasticsearch.
-![](docs/plain_events.png)
+![](docs/plain_events.PNG)
 
 You can also filter by timestamp using the input fields at the top
 
-![](docs/filtered_events.png)
+![](docs/filtered_events.PNG)
 
 The diagrams/charts get visible when clicking on the according buttons, like it can be seen here:
 
-![](docs/number_of_events.png)
+![](docs/number_of_events.PNG)
 
-![](docs/timeseries.png)
+![](docs/timeseries.PNG)
 
 ## Schema validation
 To validate the events jsonschema is used. An example schema file can be found in folder event_schemas. An updated schema definition can either be placed in the same folder or in can be posted using Rest. See folder
