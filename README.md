@@ -45,11 +45,13 @@ Afterwards start the app using
 python app.py
 ```
 
-The dashboard is then available [here](http://127.0.0.1:18550/kebab/) following the rule 
+The dashboard is then available [here](http://127.0.0.1:18550/event-monitor/) following the rule 
 ```
 http://<host>:<port>/<url_base_pathname>
 
-# see line: app = dash.Dash(server=server, url_base_pathname='/kebab/', external_stylesheets=[dbc.themes.BOOTSTRAP])
+# see line: app = dash.Dash(server=server, url_base_pathname=url_base_path, external_stylesheets=[dbc.themes.BOOTSTRAP])
+# with url_base_path = config.config['url_base_path']
+
 ```
 
 In order to add some test data you can use the test in test_add_new_event.py.

@@ -33,7 +33,6 @@ print('\n\n\n############################## initialise app \n\n\n')
 logging.basicConfig(format='%(asctime)s - [%(levelname)s] %(message)s [%(pathname)s %(funcName)s %(lineno)d]',
                     datefmt='%d-%b-%y %H:%M:%S', level=logging.INFO)
 # config parameters
-# todo: move to config file
 url_base_path = config.config['url_base_path']
 schema_directory = config.config['schema_directory']
 index = config.config['index']
