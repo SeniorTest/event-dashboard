@@ -1,0 +1,11 @@
+dash
+dash-core-components
+dash-html-components
+dash-renderer
+dash-table
+dash-daq
+dash-bootstrap-components
+elasticsearch
+pandas
+requests
+jsonschema

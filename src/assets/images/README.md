@@ -1,0 +1,1 @@
+used to store input files for plantuml and the generated sequence diagrams 

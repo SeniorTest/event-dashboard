@@ -1,0 +1,28 @@
+[
+  {
+  "id": "2550064a-a5da-4302-a391-13db3d60fc51",
+  "name": "event1",
+  "source": "source1",
+  "timestamp": "2019-01-01T02:36:53.510Z",
+  "correlationId": "219cf67e-06c5-4d08-b8e9-d6d3dc94428b",
+  "causationId": "21e061c8-2452-4be5-8af7-2eb4520e7e50",
+  "payload": {
+    "nestedContent1": "0000000c-0000-0000-0000-00000000000e",
+    "nestedContent2": "85feef84-6991-46ac-b31c-48bc992cef9e",
+    "nestedContent3": "85feef84-6991-46ac-b31c-48bc992cef9e"
+  }
+},
+{
+  "id": "2550064a-a5da-4302-a391-13db3d60fc52",
+  "name": "event2",
+  "source": "source2",
+  "timestamp": "2019-01-01T02:36:53.510Z",
+  "correlationId": "219cf67e-06c5-4d08-b8e9-d6d3dc94428b",
+  "causationId": "21e061c8-2452-4be5-8af7-2eb4520e7e50",
+  "payload": {
+    "nestedContent1": "0000000c-0000-0000-0000-00000000000e",
+    "nestedContent2": "85feef84-6991-46ac-b31c-48bc992cef9e",
+    "nestedContent3": "85feef84-6991-46ac-b31c-48bc992cef9e"
+  }
+}
+]

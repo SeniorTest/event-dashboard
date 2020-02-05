@@ -1,0 +1,1 @@
+used to store schema for events, like in the example file

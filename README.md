@@ -25,6 +25,11 @@ docker pull docker.elastic.co/elasticsearch/elasticsearch:7.5.2
 docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.5.2
 ``` 
 
+### Setup plantuml
+
+[Plantuml](https://plantuml.com) is used to create sequence diagrams based on the events. Since the receiver of the event is not contained in the event, the information is added as target to the schema file.
+In order to work properly please add plantuml.jar along app.py.
+
 ### Setup app
 
 It is recommended (but not necessary) to use a [virtual environment](https://virtualenv.pypa.io/en/latest/userguide.html) virtual environment. 
@@ -68,3 +73,10 @@ The diagrams/charts get visible when clicking on the according buttons, like it 
 ![](docs/number_of_events.png)
 
 ![](docs/timeseries.png)
+
+## Schema validation
+To validate the events jsonschema is used. An example schema file can be found in folder event_schemas. An updated schema definition can either be placed in the same folder or in can be posted using Rest. See folder
+```
+tests/e2e/test_post_schema.py
+```
+as reference. Using that api result in creating a new schema file with a timestamp. The app reads that file and stores its content in-memory, to speed up event validation.
