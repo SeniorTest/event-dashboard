@@ -2,7 +2,7 @@
 from elasticsearch import Elasticsearch
 
 # internal imports
-import config
+from src import config
 
 
 def connect_elasticsearch():
@@ -16,30 +16,11 @@ def connect_elasticsearch():
 
 def create_index(es_object, index_name='events'):
     created = False
-    # index settings
-    settings = {
-        "settings": {
-            "number_of_shards": 1,
-            "number_of_replicas": 0
-        },
-        "mappings": {
-            'mappings': {
-                'examplecase': {
-                    'properties': {
-                        'address': {'index': 'not_analyzed', 'type': 'string'},
-                        'date_of_birth': {'index': 'not_analyzed', 'format': 'dateOptionalTime', 'type': 'date'},
-                        'some_PK': {'index': 'not_analyzed', 'type': 'string'},
-                        'fave_colour': {'index': 'analyzed', 'type': 'string'},
-                        'email_domain': {'index': 'not_analyzed', 'type': 'string'},
-                    }}}
-        }
-    }
+
     try:
         if not es_object.indices.exists(index_name):
             # Ignore 400 means to ignore "Index Already Exist" error.
-            # tmp = es_object.indices.create(index=index_name, ignore=400, body=settings)
             tmp = es_object.indices.create(index=index_name, ignore=400)
-            print(tmp)
             print('Created Index')
         created = True
     except Exception as ex:

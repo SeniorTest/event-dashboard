@@ -16,7 +16,9 @@ On consuming the callbacks for updating the diagrams are called, for example "la
 
 ## Getting started
 
-### Setup elasticsearch
+### Run it locally
+
+#### Setup elasticsearch
 
 In order to run the application locally, you need have an Elasticsearch instance running. For development and to get started, it is recommended to use the single node dockerized instance, as described [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
 ```
@@ -25,12 +27,12 @@ docker pull docker.elastic.co/elasticsearch/elasticsearch:7.5.2
 docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.5.2
 ``` 
 
-### Setup plantuml
+#### Setup plantuml
 
 [Plantuml](https://plantuml.com) is used to create sequence diagrams based on the events. Since the receiver of the event is not contained in the event, the information is added as target to the schema file.
 In order to work properly please add plantuml.jar along app.py.
 
-### Setup app
+#### Setup app
 
 It is recommended (but not necessary) to use a [virtual environment](https://virtualenv.pypa.io/en/latest/userguide.html) virtual environment. 
 Checkout the repository and install all required module using command
@@ -62,6 +64,20 @@ pytest -k test_add_new_event.py
 which will add a new event to elasticsearch.
 
 Afterwards you should see the event in the dashboard.
+
+### Build docker image
+
+Run command
+```
+docker build -t event_monitor .
+```
+to build a docker image.
+
+### Run docker container
+```
+docker run -p 18850:80 -it event_monitor
+```
+
 
 You can see all events which are available at elasticsearch.
 ![](docs/plain_events.PNG)

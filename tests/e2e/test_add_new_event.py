@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime
 from src import es_handler
 
+
 index = 'test_index_3'
 possible_sources = ['Service1', 'Service2', 'Service3', 'Service4']
 possible_names = ['EventName1', 'EventName2', 'EventName3', 'EventName4']
