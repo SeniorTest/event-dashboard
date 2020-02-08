@@ -11,7 +11,7 @@ possible_names = ['EventName1', 'EventName2', 'EventName3', 'EventName4']
 
 def test_add_event():
     # given
-    es = es_handler.connect_elasticsearch()
+    es = es_handler.connect_elasticsearch('127.0.0.1')
     assert es
 
     test_event = {
@@ -26,5 +26,5 @@ def test_add_event():
             "nestedProperty2": "565b709b-f2d2-4148-a358-fa812899e346"
         }
     }
-
+    # when, then
     assert es_handler.store_record(es, index, test_event), 'unable to store event'

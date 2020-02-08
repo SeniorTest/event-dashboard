@@ -2,12 +2,18 @@
 from elasticsearch import Elasticsearch
 
 # internal imports
-from src import config
+try:
+    # todo: align imports
+    # import for test execution
+    from src import config
+except:
+    # import for app execution
+    import config
 
 
-def connect_elasticsearch():
+def connect_elasticsearch(address=config.config['elasticsearch_url']):
     _es = None
-    _es = Elasticsearch([{'host': config.config['elasticsearch_url'], 'port': config.config['elasticsearch_port']}])
+    _es = Elasticsearch([{'host': address, 'port': config.config['elasticsearch_port']}])
     if _es.ping():
         return _es
     else:

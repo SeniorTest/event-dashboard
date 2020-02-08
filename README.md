@@ -7,7 +7,7 @@ Enable to see all send events at a glance, provide filtering and visualizations 
 Enhance data by adding information from other services, like a [Pact broker](https://docs.pact.io/getting_started/sharing_pacts).
 
 ## Idea
-A consumer gets all Kafka events on a regular basis and writes them into elasticsearch.
+A consumer gets all Kafka events on a regular basis and writes them into elasticsearch (Note: consuming and writing of events is not part of this application!)
 On consuming the callbacks for updating the diagrams are called, for example "lastUpdate". The diagrams are build using timeseries between lastCleared and lastUpdate, as well es the consumer group id.
 
 # Overview
@@ -24,7 +24,7 @@ In order to run the application locally, you need have an Elasticsearch instance
 ```
 docker pull docker.elastic.co/elasticsearch/elasticsearch:7.5.2
 
-docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elastic docker.elastic.co/elasticsearch/elasticsearch:7.5.2
 ``` 
 
 #### Setup plantuml
@@ -75,17 +75,29 @@ to build a docker image.
 
 ### Run docker container
 ```
+# if running against local elasticsearch
 docker run -p 18850:80 -it event_monitor
+
+# if running against dockerized elasticsearch
+docker run -p 18850:80 -it --name dashboard --link=elastic:elastic event_monitor
 ```
 
+The link in the second command is used to connect the dashboard container to the elasticsearch container. For more information please have a look [here](https://www.linode.com/docs/applications/containers/docker-container-communication/).
+
+## User Guide
 
 You can see all events which are available at elasticsearch.
-![](docs/plain_events.PNG)
+![](docs/plain_events_numbered_inputs.png)
 
-You can also filter by timestamp using the input fields at the top
+You can also filter the events by timestamp using the input fields marked with the red 1 and 2. At the moment it is required to use the same date format, since no conversion or verification is implemented.
+To use the configured timestamps for filter please press button "Apply Filter" marked with the red 3. If you want to reset the filter you can click on button "Reset Filter" marked with the red 4. This removes the filter criteria and will return all events and also update the input fields (red 1 and 2) with the oldest and the youngest timestamp.
 
-![](docs/filtered_events.PNG)
+In addition to timestamp (backend) filtering you can use the (frontend) filter as shown in the next screenshot
+![](docs/table_filter.png)
 
+### Charts
+
+The table data are used to display various diagrams, for example number of events.
 The diagrams/charts get visible when clicking on the according buttons, like it can be seen here:
 
 ![](docs/number_of_events.PNG)
