@@ -109,4 +109,4 @@ To validate the events jsonschema is used. An example schema file can be found i
 ```
 tests/e2e/test_post_schema.py
 ```
-as reference. Using that api result in creating a new schema file with a timestamp. The app reads that file and stores its content in-memory, to speed up event validation.
+as reference. Using that api results in creating a new schema file with a timestamp. The app reads that file and stores its content in-memory, to speed up event validation.

@@ -54,6 +54,6 @@ def test_post_schema():
                                 'required': ['id', 'name', 'payload']}}
                     ]
 
-    r = requests.post('http://127.0.0.1:18550/kebab/api/eventSchema',
+    r = requests.post('http://127.0.0.1:18550/event-monitor/api/eventSchema',
                       data=json.dumps(event_schema), headers=headers)
     assert r.status_code == 200
