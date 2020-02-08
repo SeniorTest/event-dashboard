@@ -47,7 +47,7 @@ Afterwards start the app using
 python app.py
 ```
 
-The dashboard is then available [here](http://127.0.0.1:18550/event-monitor/) following the rule 
+The dashboard is then available [here](http://127.0.0.1:18850/event-monitor/) following the rule 
 ```
 http://<host>:<port>/<url_base_pathname>
 
