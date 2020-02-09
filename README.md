@@ -92,17 +92,41 @@ You can see all events which are available at elasticsearch.
 You can also filter the events by timestamp using the input fields marked with the red 1 and 2. At the moment it is required to use the same date format, since no conversion or verification is implemented.
 To use the configured timestamps for filter please press button "Apply Filter" marked with the red 3. If you want to reset the filter you can click on button "Reset Filter" marked with the red 4. This removes the filter criteria and will return all events and also update the input fields (red 1 and 2) with the oldest and the youngest timestamp.
 
-In addition to timestamp (backend) filtering you can use the (frontend) filter as shown in the next screenshot
+In addition to timestamp (backend) filtering you can use the (frontend) filter as shown in the next picture.
+
 ![](docs/table_filter.png)
 
 ### Charts
 
-The table data are used to display various diagrams, for example number of events.
+The filtered table data are used to display various diagrams, for example number of events.
 The diagrams/charts get visible when clicking on the according buttons, like it can be seen here:
 
+#### Number of events
 ![](docs/number_of_events.PNG)
 
+#### Timeseries
+
+Shows events based on their timestamp. If the correlation id for multiple events match, a connection between those events is displayed, as you can see on right hand side of the diagram. 
+
 ![](docs/timeseries.PNG)
+
+#### Time delta
+
+Based on the timestamp in the events the time between those events is calculated and shown in the diagram.
+
+![](docs/time_delta.png)
+
+#### Sequence diagram
+
+This diagram shows a sort of sequence diagram. It contains almost the same information as the timeseries diagram, but instead of the timestamp the index of the event is used. Relations between events are based on the correlation id.
+
+![](docs/sequence_diagram.png)
+
+#### Plantuml sequence diagram
+
+Based on the target property in the event schema a plantuml seqnuence diagram is generated and displayed. It is also possible to download the diagram as png.
+
+![](docs/sequence_diagram_plantuml.png) 
 
 ## Schema validation
 To validate the events jsonschema is used. An example schema file can be found in folder event_schemas. An updated schema definition can either be placed in the same folder or in can be posted using Rest. See folder
