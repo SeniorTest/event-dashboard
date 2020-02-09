@@ -219,7 +219,7 @@ sequence_diagram_collapse = html.Div(
 plantuml_msc_collapse = html.Div(
     [
         dbc.Button(
-            "Plantuml Sequence Diagram (wip)",
+            "Plantuml Sequence Diagram",
             id="plantuml_msc_collapse_button",
             className="mb-3",
             color="info",
