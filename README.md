@@ -102,13 +102,13 @@ The filtered table data are used to display various diagrams, for example number
 The diagrams/charts get visible when clicking on the according buttons, like it can be seen here:
 
 #### Number of events
-![](docs/number_of_events.PNG)
+![](docs/number_of_events.png)
 
 #### Timeseries
 
 Shows events based on their timestamp. If the correlation id for multiple events match, a connection between those events is displayed, as you can see on right hand side of the diagram. 
 
-![](docs/timeseries.PNG)
+![](docs/timeseries.png)
 
 #### Time delta
 
