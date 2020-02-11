@@ -1,5 +1,5 @@
 import plotly.graph_objs as go
-import json
+import math
 import pandas as pd
 
 color_palette = ['#586BA4',
@@ -151,8 +151,6 @@ def create_sequence_diagram_figure(data, events_df):
     grid_with = 2
 
     if 'name' in df:
-        print('__log')
-        import math
         grid_with = (200 - len(df.source.tolist()) * 3) * math.log10(len(df.source.tolist()))
 
     if df.empty:
@@ -196,7 +194,6 @@ def create_sequence_diagram_figure(data, events_df):
 
 def create_event_timeseries(kafka_events):
     data = list()
-    # print(kafka_events)
     print('\n\n\n############################## timeseries \n\n\n')
 
     if not kafka_events:
@@ -215,8 +212,6 @@ def create_event_timeseries(kafka_events):
             event_color_map = dict()
 
             trace_name = events_df.loc[group_index_list]['name'].tolist()[0]
-            # trace_color = 'rgb' + str((tuple(list(np.random.random(size=3) * 256))))
-            print(group_index_list)
             trace_color = color_palette[group_index_list[0] % len(color_palette) - 1]
 
             trace_high = go.Scatter(
@@ -280,58 +275,24 @@ def creature_figure(data, events_df):
 
 def create_events_table(events_df):
     table_df = events_df
-    sorted_columns = ['valid', 'delta', 'timestamp', 'name', 'source', 'correlationId', 'payload', 'id', 'causationId']
+    # make sure valid is always the first column
+    sorted_columns = ['valid']
     additional_columns = list(set(list(table_df.columns)) - set(sorted_columns))
+    table_columns = list(table_df.columns)
+    table_columns.remove(sorted_columns[0])
+    sorted_columns.extend(table_columns)
+    # tmp = list(set(sorted_columns))
+    # check if one of the columns contains a dictionary
+    list_of_dicts = table_df.to_dict(orient='records')
+    # only checking for the first row
+    for column, value in list_of_dicts[0].items():
+        if isinstance(value, dict):
+            # value is a dictionary and  needs to parsed to string in order to display it in the table
+            table_df[column] = table_df[column].apply(str)
 
-    try:
-        table_df['payload'] = table_df['payload'].apply(str)
-        sorted_columns.extend(additional_columns)
-        table_df = table_df[sorted_columns]
-    except:
-        print('not applying string casting to payload')
-
+    # apply sortation to dataframe
+    table_df = table_df[sorted_columns]
     return table_df
-
-
-def get_api_response_for_event(events_df, event_api_mapping = None):
-    """
-    if no data are available for an event and an api is configured for an event, get the api response and add it to the
-    dataframe
-    :param events_df:
-    :param event_api_mapping: optional
-    :return:
-    """
-    if not event_api_mapping:
-        # print('######### using default event_api_mapping')
-        event_api_mapping = [
-            {
-                'name': 'TsuStored',
-                'endpoint': 'http://127.0.0.:1:20123/tsuStored',
-                'payload_parameter': 'tsuId',
-                'client_id': 'bla',
-                'client_secret': 'bla'
-            }
-        ]
-
-    if any(events_df['name'] in event_api_mapping['name'] for event_api_mapping in event_api_mapping):
-        print('------------making rest call for ' + events_df['name'])
-        event_api_endpoints = [event_api_mapping['endpoint'] for event_api_mapping in event_api_mapping if
-                         events_df['name'] == event_api_mapping['name']]
-
-        event_api_payload_parameter = [event_api_mapping['payload_parameter'] for event_api_mapping in event_api_mapping if
-                               events_df['name'] == event_api_mapping['name']]
-
-        print()
-        print(event_api_endpoints[0] + '/' +  events_df.payload[event_api_payload_parameter[0]])
-
-        response = {
-            'bla1': 'bla1',
-            'bla2': 'bla2',
-        }
-
-        # temp_string = json.dumps(response, indent=4)
-
-        return json.dumps(response, indent=4)
 
 
 def create_tooltips(validation_messages):

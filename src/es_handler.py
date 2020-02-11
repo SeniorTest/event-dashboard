@@ -1,5 +1,5 @@
 # external imports
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, exceptions
 
 # internal imports
 try:
@@ -51,8 +51,12 @@ def store_record(elastic_object, index_name, record):
 
 
 def search(es_object, index_name, search):
-    result = es_object.search(index=index_name, body=search, scroll='1m', size=1000)
-    raw_events = [raw_event['_source'] for raw_event in result['hits']['hits']]
+    try:
+        result = es_object.search(index=index_name, body=search, scroll='1m', size=1000)
+        raw_events = [raw_event['_source'] for raw_event in result['hits']['hits']]
+    except exceptions.NotFoundError:
+        raw_events = []
+
     return raw_events
 
 

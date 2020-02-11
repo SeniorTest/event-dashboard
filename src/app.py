@@ -1,6 +1,5 @@
 import base64
 import datetime
-from datetime import datetime as dt
 import glob
 import json
 import os
@@ -38,8 +37,10 @@ schema_directory = config.config['schema_directory']
 index = config.config['index']
 
 # initialise app with some data
-kafka_events = json.load(open('initial_event.json'))
-events_df = pd.DataFrame(kafka_events)
+# hint: order of properties in config json is used for the order of the column headers
+initial_event = config.config['event_template']
+
+events_df = pd.DataFrame(initial_event)
 
 server = Flask(__name__)
 
@@ -62,7 +63,7 @@ app = dash.Dash(server=server, url_base_pathname=url_base_path, external_stylesh
 
 app.config['suppress_callback_exceptions'] = True
 
-msc = charts.create_sequence_diagram(kafka_events)
+msc = charts.create_sequence_diagram(initial_event)
 number_of_event_names_pie = charts.create_pie_chart(events_df, 'name')
 number_of_event_sources_pie = charts.create_pie_chart(events_df, 'source')
 
@@ -456,6 +457,7 @@ def get_events(start_time=None, end_time=None):
         "range": {"timestamp": {"gte": min_timestamp, "lte": max_timestamp}}
     }}
     print(search_object)
+
     events = es_handler.search(es_object=es, index_name=index, search=search_object)
     df = pd.DataFrame(events)
 
@@ -524,15 +526,20 @@ def update_session_memory(rows, derived_virtual_selected_rows):
     if derived_virtual_selected_rows is None:
         derived_virtual_selected_rows = []
 
+    print('----------------------------\n')
+    print(rows)
+
     if not rows:
-        dff = pd.DataFrame(
-            columns=['timestamp', 'name', 'source', 'correlationId', 'payload', 'id', 'causationId'])
+        # if no data are available, create an empty dataframe containing only the headers
+        dff = pd.DataFrame(columns=list(initial_event[0].keys()))
+
     else:
         dff = pd.DataFrame(rows)
         dff['delta'] = (
                 pd.to_datetime(dff['timestamp']) - pd.to_datetime(dff['timestamp']).shift()).fillna(0)
         dff['delta'] = dff['delta'].apply(str)
 
+    print('-------------------------------')
     logging.debug(dff)
     return dff.to_json(orient='records')
 
@@ -893,23 +900,9 @@ def update_start_end_date(session_data):
     print('returning ', min_timestamp)
     return min_timestamp, max_timestamp
 
-    string_prefix = 'You have selected: '
-    if start_date is not None:
-        start_date = dt.strptime(start_date, '%Y-%m-%d')
-        start_date_string = start_date.strftime('%B %d, %Y')
-        string_prefix = string_prefix + 'Start Date: ' + start_date_string + ' | '
-    if end_date is not None:
-        end_date = dt.strptime(end_date, '%Y-%m-%d')
-        end_date_string = end_date.strftime('%B %d, %Y')
-        string_prefix = string_prefix + 'End Date: ' + end_date_string
-    if len(string_prefix) == len('You have selected: '):
-        return 'Select a date to see it displayed here'
-    else:
-        return string_prefix
-
 
 if __name__ == '__main__':
     # serve(app.server, host='0.0.0.0', port=18550)
     # serve(app.server, host='127.0.0.1', port=18550)
     # app.run_server(host='0.0.0.0', port=18550)
-    app.run_server(debug=True, host='127.0.0.1', port=18550)
+    app.run_server(debug=True, host='127.0.0.1', port=18850)

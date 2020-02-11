@@ -25,7 +25,7 @@ def test_add_event():
         "name": random.choice(possible_names),
         "correlationId": random.choice(possible_correlation_ids),
         "causationId": str(uuid.uuid4()),
-        "payload": {
+        "nestedObject": {
             "nestedProperty1": str(uuid.uuid4()),
             "nestedProperty2": "565b709b-f2d2-4148-a358-fa812899e346"
         }
