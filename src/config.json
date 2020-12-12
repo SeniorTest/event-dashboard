@@ -1,4 +1,7 @@
 {
+  "password": "useless_password_for_testing",
+  "pw": "useless_password_for_testing",
+  "api_key": "useless_password_for_testing",
   "url_base_path": "/event-monitor/",
   "schema_directory": "event_schemas",
   "index": "test_index_3",
